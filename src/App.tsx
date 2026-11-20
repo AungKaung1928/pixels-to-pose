@@ -24,7 +24,7 @@ const T = {
     table: 'All variants',
     cols: ['Variant', 'mAP@[.5:.95]', 'ms, 1 thread', 'ms, 4 threads', 'MB'],
     caveat:
-      'Simulated cluttered table, 2000 validation images, 8992 objects. Model time only, batch 1, one idle x86 CPU; decoding adds 0.18 ms. Not measured on a Jetson or any accelerator.',
+      'Simulated cluttered table, 2000 validation images, 8992 objects. Model time only, batch 1, one idle x86 CPU; decoding adds 0.18 ms. Not measured on a Jetson or any accelerator. The classical time comes from another session: timed together in one process, classical took 1.80 ms, INT8 1.56 ms as a model and 1.94 ms end to end, so INT8 wins as a model but not end to end.',
     lang: 'Language',
     contents: 'Chapters',
     toc: [
@@ -51,7 +51,7 @@ const T = {
     table: 'すべての構成',
     cols: ['構成', 'mAP@[.5:.95]', 'ms (1 スレッド)', 'ms (4 スレッド)', 'MB'],
     caveat:
-      'シミュレーションの散らかったテーブル、検証画像 2000 枚、物体 8992 個。モデル時間のみ、バッチ 1、アイドル状態の x86 CPU 1 台。デコードに 0.18 ms 加わります。Jetson やアクセラレータでは計測していません。',
+      'シミュレーションの散らかったテーブル、検証画像 2000 枚、物体 8992 個。モデル時間のみ、バッチ 1、アイドル状態の x86 CPU 1 台。デコードに 0.18 ms 加わります。Jetson やアクセラレータでは計測していません。古典的手法の時間は別のセッションで計測したものです。1 つのプロセスで同時に計測すると、古典的手法 1.80 ms、INT8 はモデルのみで 1.56 ms、end-to-end で 1.94 ms でした。INT8 はモデル単体では速いものの、end-to-end では古典的手法より遅くなります。',
     lang: '表示言語',
     contents: '章',
     toc: [
