@@ -384,3 +384,20 @@ button.link {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.verdict {
+  font-size: 1.0625rem;
+}
+
+tr.best th,
+tr.best td {
+  background: var(--surface);
+}
+
+td.pass {
+  color: var(--good-ink);
+}
+
+td.fail {
+  color: var(--ink-3);
+}

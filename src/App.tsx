@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { rows, source } from './content/int8'
 import { CameraChapter } from './CameraChapter'
+import { DetectChapter } from './DetectChapter'
 import { LangContext, initialLang, saveLang } from './i18n'
 import type { Lang } from './i18n'
 
@@ -70,6 +71,7 @@ export default function App() {
         </header>
         <main>
           <CameraChapter />
+          <DetectChapter />
           <section className="intro chapter-break">
             <p className="eyebrow">{t.eyebrow}</p>
             <h1>{t.title}</h1>
