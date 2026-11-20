@@ -24,6 +24,14 @@ const T = {
     caveat:
       'Simulated cluttered table, 2000 validation images, 8992 objects. Model time only, batch 1, one idle x86 CPU; decoding adds 0.18 ms. Not measured on a Jetson or any accelerator.',
     lang: 'Language',
+    contents: 'Chapters',
+    toc: [
+      ['camera', 'How big is one pixel?'],
+      ['detect', 'Classical or learned?'],
+      ['keypoints', 'Ask for a coordinate'],
+      ['map', 'What mAP sees'],
+      ['int8', 'Shrink the detector'],
+    ],
   },
   ja: {
     eyebrow: 'エッジへの展開',
@@ -41,6 +49,14 @@ const T = {
     caveat:
       'シミュレーションの散らかったテーブル、検証画像 2000 枚、物体 8992 個。モデル時間のみ、バッチ 1、アイドル状態の x86 CPU 1 台。デコードに 0.18 ms 加わります。Jetson やアクセラレータでは計測していません。',
     lang: '表示言語',
+    contents: '章',
+    toc: [
+      ['camera', '1 ピクセルの大きさ'],
+      ['detect', '古典的手法か、学習か'],
+      ['keypoints', '座標を出させる'],
+      ['map', 'mAP に見えるもの'],
+      ['int8', '検出器を小さくする'],
+    ],
   },
 }
 
@@ -71,12 +87,29 @@ export default function App() {
             ))}
           </div>
         </header>
+        <nav aria-label={t.contents}>
+          <ol className="toc">
+            {t.toc.map(([id, label]) => (
+              <li key={id}>
+                <a href={`#${id}`}>{label}</a>
+              </li>
+            ))}
+          </ol>
+        </nav>
         <main>
-          <CameraChapter />
-          <DetectChapter />
-          <KeypointChapter />
-          <MapChapter />
-          <section className="intro chapter-break">
+          <div className="chapter" id="camera">
+            <CameraChapter />
+          </div>
+          <div className="chapter" id="detect">
+            <DetectChapter />
+          </div>
+          <div className="chapter" id="keypoints">
+            <KeypointChapter />
+          </div>
+          <div className="chapter" id="map">
+            <MapChapter />
+          </div>
+          <section className="intro chapter-break" id="int8">
             <p className="eyebrow">{t.eyebrow}</p>
             <h1>{t.title}</h1>
             <p>{t.intro}</p>
