@@ -4,6 +4,7 @@ import { CameraChapter } from './CameraChapter'
 import { DetectChapter } from './DetectChapter'
 import { KeypointChapter } from './KeypointChapter'
 import { MapChapter } from './MapChapter'
+import { PeakChapter } from './PeakChapter'
 import { LangContext, initialLang, saveLang } from './i18n'
 import type { Lang } from './i18n'
 
@@ -30,6 +31,7 @@ const T = {
       ['detect', 'Classical or learned?'],
       ['keypoints', 'Ask for a coordinate'],
       ['map', 'What mAP sees'],
+      ['peaks', 'Max-pool is the NMS'],
       ['int8', 'Shrink the detector'],
     ],
   },
@@ -55,6 +57,7 @@ const T = {
       ['detect', '古典的手法か、学習か'],
       ['keypoints', '座標を出させる'],
       ['map', 'mAP に見えるもの'],
+      ['peaks', 'Max-pool が NMS になる'],
       ['int8', '検出器を小さくする'],
     ],
   },
@@ -108,6 +111,9 @@ export default function App() {
           </div>
           <div className="chapter" id="map">
             <MapChapter />
+          </div>
+          <div className="chapter" id="peaks">
+            <PeakChapter />
           </div>
           <section className="intro chapter-break" id="int8">
             <p className="eyebrow">{t.eyebrow}</p>

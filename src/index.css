@@ -522,3 +522,26 @@ td.fail {
 td.num {
   white-space: nowrap;
 }
+
+.peak-grid {
+  display: block;
+  width: min(100%, 360px);
+  height: auto;
+}
+
+.peak-cell {
+  fill: var(--series-1);
+  stroke: var(--hairline);
+  stroke-width: 1;
+}
+
+.peak-kept {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.5;
+}
+
+.peak-centre {
+  stroke: var(--ink);
+  stroke-width: 2;
+}
