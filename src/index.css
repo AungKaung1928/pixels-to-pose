@@ -401,3 +401,35 @@ td.pass {
 td.fail {
   color: var(--ink-3);
 }
+
+.kp-plot {
+  display: block;
+  width: 100%;
+  min-width: 360px;
+  height: auto;
+}
+
+.kp-cell {
+  fill: var(--hairline-strong);
+}
+
+.kp-cell.top {
+  fill: var(--series-2);
+}
+
+.kp-true {
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+}
+
+.kp-soft {
+  stroke: var(--series-1);
+  stroke-width: 2;
+}
+
+.kp-axis {
+  fill: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
