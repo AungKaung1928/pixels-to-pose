@@ -3,6 +3,7 @@ import { rows, source } from './content/int8'
 import { CameraChapter } from './CameraChapter'
 import { DetectChapter } from './DetectChapter'
 import { KeypointChapter } from './KeypointChapter'
+import { MapChapter } from './MapChapter'
 import { LangContext, initialLang, saveLang } from './i18n'
 import type { Lang } from './i18n'
 
@@ -74,6 +75,7 @@ export default function App() {
           <CameraChapter />
           <DetectChapter />
           <KeypointChapter />
+          <MapChapter />
           <section className="intro chapter-break">
             <p className="eyebrow">{t.eyebrow}</p>
             <h1>{t.title}</h1>

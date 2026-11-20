@@ -433,3 +433,46 @@ td.fail {
   font-family: var(--font-mono);
   font-size: 11px;
 }
+
+.map-boxes {
+  display: block;
+  width: min(100%, 360px);
+  height: auto;
+}
+
+.map-true {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 3;
+}
+
+.map-pred {
+  fill: var(--series-1);
+  fill-opacity: 0.35;
+  stroke: var(--series-1);
+  stroke-width: 2;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  padding: 2px 8px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius);
+  color: var(--ink-3);
+}
+
+.chip.on {
+  background: var(--good);
+  border-color: var(--good);
+  color: var(--on-accent);
+}
