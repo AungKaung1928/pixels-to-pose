@@ -9,24 +9,19 @@ Status: five chapters built, **How big is one pixel?** (pinhole camera, pixel si
 
 ## Run locally
 
-Needs Node.js 20.19+ or 22.12+ (required by Vite) and npm.
-
-Clone the repository, then:
+Needs Node.js 20.19+ or 22.12+ and npm.
 
 ```bash
+git clone <this repo URL>
 cd pixels-to-pose
-npm ci          # once after cloning: installs the exact versions in package-lock.json
-npm run dev     # starts the app
+npm ci          # first time only
+npm run dev     # then open http://localhost:5173
 ```
 
-Open the address `npm run dev` prints, usually http://localhost:5173, in a browser. The page reloads when a file changes. Ctrl+C in the terminal stops the server.
-
-Run every `npm` command from inside the `pixels-to-pose` folder. From any other folder npm stops with `Could not read package.json`.
-
-That is all you need to read the app. The commands below are only for changing the code:
+Only when changing the code:
 
 ```bash
-npm run lint    # oxlint
+npm run lint
 npm test        # unit tests: the numbers the text relies on
 npm run build   # type check + static build into dist/
 ```
