@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
+import { chapterKind } from '../content/pipeline'
 import { useLang } from '../i18n'
 import { CHAPTER_IDS, neighbours } from '../lib/route'
 import type { ChapterId } from '../lib/route'
+import { Thumb } from './Thumb'
 
 const TEXT = {
   en: { label: 'Chapter navigation', back: 'Back', next: 'Next', overview: 'Overview' },
@@ -33,11 +35,13 @@ export function ChapterNav({ open, labels }: { open: ChapterId; labels: Record<C
   const name = (id: ChapterId | null) => (id ? `${CHAPTER_IDS.indexOf(id) + 1} ${labels[id]}` : t.overview)
   return (
     <nav className="ch-nav" aria-label={t.label}>
-      <a id="ch-back" href={hrefOf(prev)} rel="prev">
+      <a id="ch-back" href={hrefOf(prev)} rel="prev" className={prev ? `k-${chapterKind(prev)}` : undefined}>
+        {prev && <Thumb id={prev} />}
         <span className="ch-nav-dir">← {t.back}</span>
         <span className="ch-nav-name">{name(prev)}</span>
       </a>
-      <a id="ch-next" href={hrefOf(next)} rel="next">
+      <a id="ch-next" href={hrefOf(next)} rel="next" className={next ? `k-${chapterKind(next)}` : undefined}>
+        {next && <Thumb id={next} />}
         <span className="ch-nav-dir">{t.next} →</span>
         <span className="ch-nav-name">{name(next)}</span>
       </a>

@@ -1,7 +1,7 @@
 import { DEFAULT } from '../content/camera'
 import { HEADS } from '../content/keypoints'
 import { DECODE_MS } from '../content/peaks'
-import { CHAPTER_NODE, NODES } from '../content/pipeline'
+import { chapterKind } from '../content/pipeline'
 import { methods } from '../content/detect'
 import { rows, speedup } from '../content/int8'
 import { realGap } from '../content/real'
@@ -65,7 +65,7 @@ export function Overview({ title, labels }: { title: string; labels: Record<Chap
       <ol className="ov-grid">
         {CHAPTER_IDS.map((id, i) => (
           <li key={id}>
-            <a id={`card-${id}`} className={`ov-card k-${NODES.find((nd) => nd.id === CHAPTER_NODE[id].node)!.kind}`} href={`#/${id}`}>
+            <a id={`card-${id}`} className={`ov-card k-${chapterKind(id)}`} href={`#/${id}`}>
               <Thumb id={id} />
               <span className="ov-index">{String(i + 1).padStart(2, '0')}</span>
               <span className="ov-title">{labels[id]}</span>

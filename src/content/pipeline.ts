@@ -37,3 +37,6 @@ export const CHAPTER_NODE: Record<ChapterId, { node: NodeId; en: string; ja: str
   real: { node: 'image', en: 'The input changes from renders to real photos; the detector stays the same.', ja: '入力がレンダリングから実写真に変わり、検出器は同じままです。' },
   int8: { node: 'net', en: 'The same detector, quantised to 8-bit integers or pruned.', ja: '同じ検出器を 8 ビット整数に量子化、または枝刈りします。' },
 }
+
+// The node kind a chapter is about: its colour everywhere the chapter appears (cards, nav, thumbnails).
+export const chapterKind = (id: ChapterId): NodeKind => NODES.find((nd) => nd.id === CHAPTER_NODE[id].node)!.kind
