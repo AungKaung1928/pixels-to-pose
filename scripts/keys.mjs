@@ -115,6 +115,15 @@ try {
   const after = await js(`location.hash + ' ' + document.getElementById('kp-pos').value`)
   report('arrow right in a slider stays in the chapter and moves the slider', after.startsWith('#/keypoints ') && after.split(' ')[1] !== before ? [] : [`slider ${before} → ${after}`])
 
+  // The drag hint under the first slider shows until the reader moves a control, then goes.
+  await open('#/keypoints')
+  const hint = `getComputedStyle(document.getElementById('kp-pos').closest('label'), '::after').content`
+  const shown = await js(hint)
+  await js(`document.getElementById('kp-pos').focus()`)
+  await press('ArrowRight')
+  const gone = await js(hint)
+  report('drag hint shown on open, gone after the first slider move', shown.includes('drag') && gone === 'none' ? [] : [`before: ${shown}, after: ${gone}`])
+
   // Play opens the next chapter after one beat (2.4 s), lights its node, and stops on the last chapter.
   await open('#/real')
   await js(`document.getElementById('pipe-play').click()`)

@@ -477,6 +477,7 @@ tbody th {
 }
 
 .controls label {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -988,4 +989,22 @@ td.num {
   outline: 2px solid var(--accent);
   outline-offset: 6px;
   border-radius: 2px;
+}
+
+/* First-use hint under the first slider of a chapter, in edge print; gone once any control in the chapter moves.
+   Empty alt text after the slash keeps it out of the slider's accessible name. */
+.chapter:not([data-touched]) .intro + .panel .controls > label:first-child::after {
+  content: '\2190  drag  \2192' / '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1px 6px;
+  border-radius: 2px;
+  background: var(--film);
+  color: var(--on-film);
+  font: var(--step--1) var(--font-mono);
+  letter-spacing: 0.08em;
+}
+:lang(ja) .chapter:not([data-touched]) .intro + .panel .controls > label:first-child::after {
+  content: '\2190  ドラッグ  \2192' / '';
 }

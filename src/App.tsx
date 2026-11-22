@@ -69,6 +69,8 @@ export default function App() {
     document.querySelector('.toc [aria-current="page"]')?.scrollIntoView({ block: 'nearest', inline: 'center' })
   }, [open])
   const Open = open ? CHAPTERS[open] : null
+  // The chapter whose controls the reader has moved; its first-slider drag hint is hidden from then on.
+  const [touched, setTouched] = useState<ChapterId | null>(null)
   const [lang, setLang] = useState<Lang>(initialLang)
   const t = T[lang]
   // Also on first load: a Japanese browser opens in Japanese, so <html lang> must follow before any click.
@@ -110,7 +112,7 @@ export default function App() {
           {open && Open ? (
             <>
               <Pipeline open={open} title={t.toc[open]} />
-              <div className="chapter" id={open}>
+              <div className="chapter" id={open} data-touched={touched === open || undefined} onInput={() => setTouched(open)}>
                 <Open />
               </div>
               <ChapterNav open={open} labels={t.toc} />
