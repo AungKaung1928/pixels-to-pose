@@ -34,3 +34,20 @@ describe('pipeline node colours meet AA in both themes', () => {
     }
   }
 })
+
+// Text and marks that sit on the page ground or on a white frame: AA (4.5:1) in both themes.
+describe('text tokens meet AA on ground and frame in both themes', () => {
+  const FG = ['ink', 'ink-2', 'ink-3', 'accent', 'peak', 'series-1', 'focus']
+  for (const [theme, src] of Object.entries(THEMES)) {
+    for (const fg of FG) {
+      for (const bg of ['bg', 'surface']) {
+        it(`${theme} ${fg} on ${bg}`, () => {
+          expect(contrast(token(src, fg), token(src, bg))).toBeGreaterThanOrEqual(4.5)
+        })
+      }
+    }
+    it(`${theme} on-accent on accent`, () => {
+      expect(contrast(token(src, 'on-accent'), token(src, 'accent'))).toBeGreaterThanOrEqual(4.5)
+    })
+  }
+})

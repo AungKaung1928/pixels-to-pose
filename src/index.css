@@ -1,18 +1,19 @@
-/* Layout: instrument bench. Stage ring left, stage sheet right, to-scale strips below. Hairlines and a surface ladder, no shadows. */
+/* Look: contact sheet on a light table. White frames on cool grey, graphite controls, vermilion only for the peak/argmax, teal for learned output.
+   Layout: instrument bench. Stage ring left, stage sheet right, to-scale strips below. Hairlines and a surface ladder, no shadows. */
 :root {
-  --bg: #ffffff;
-  --surface: #f5f7fa;
-  --surface-2: #e9eef5;
-  --ink: #13203a;
-  --ink-2: #3f4b63;
-  --ink-3: #5d6a82;
-  --hairline: #dbe1ea;
-  --hairline-strong: #b6c0cf;
-  --accent: #1f56c2;
+  --bg: #eceeef;
+  --surface: #ffffff;
+  --surface-2: #dfe2e4;
+  --ink: #161718;
+  --ink-2: #45484c;
+  --ink-3: #5c6066;
+  --hairline: #d4d8db;
+  --hairline-strong: #9aa0a6;
+  --accent: #1b1c1e;
   --on-accent: #ffffff;
-  --series-1: #2a78d6;
-  --series-2: #eb6834;
-  --focus: #1f56c2;
+  --series-1: #0f6b6b;
+  --peak: #b93a0b;
+  --focus: #b93a0b;
   --good: #1f9d55;
   --good-ink: #17703d;
   --bad: #d4382c;
@@ -50,19 +51,19 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #0c1524;
-    --surface: #121d30;
-    --surface-2: #1a273d;
-    --ink: #e7ecf4;
-    --ink-2: #b6c1d2;
-    --ink-3: #8a97ad;
-    --hairline: #223049;
-    --hairline-strong: #36486a;
-    --accent: #6f9ff2;
-    --on-accent: #0c1524;
-    --series-1: #3987e5;
-    --series-2: #d95926;
-    --focus: #8fb4f5;
+    --bg: #111213;
+    --surface: #1a1b1d;
+    --surface-2: #242629;
+    --ink: #ececed;
+    --ink-2: #b4b7bb;
+    --ink-3: #8f9399;
+    --hairline: #2a2c2f;
+    --hairline-strong: #4a4d52;
+    --accent: #ececed;
+    --on-accent: #111213;
+    --series-1: #4fc1b8;
+    --peak: #ff7a4a;
+    --focus: #ff7a4a;
     --good: #3fb871;
     --good-ink: #6fd396;
     --bad: #ef5b4f;
@@ -79,25 +80,25 @@
     --k-output-bg: #15301a;
     --k-eval: #e8b85a;
     --k-eval-bg: #33260c;
-    --k-on-ink: #0c1524;
+    --k-on-ink: #111213;
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
-  --bg: #0c1524;
-  --surface: #121d30;
-  --surface-2: #1a273d;
-  --ink: #e7ecf4;
-  --ink-2: #b6c1d2;
-  --ink-3: #8a97ad;
-  --hairline: #223049;
-  --hairline-strong: #36486a;
-  --accent: #6f9ff2;
-  --on-accent: #0c1524;
-  --series-1: #3987e5;
-  --series-2: #d95926;
-  --focus: #8fb4f5;
+  --bg: #111213;
+  --surface: #1a1b1d;
+  --surface-2: #242629;
+  --ink: #ececed;
+  --ink-2: #b4b7bb;
+  --ink-3: #8f9399;
+  --hairline: #2a2c2f;
+  --hairline-strong: #4a4d52;
+  --accent: #ececed;
+  --on-accent: #111213;
+  --series-1: #4fc1b8;
+  --peak: #ff7a4a;
+  --focus: #ff7a4a;
   --good: #3fb871;
   --good-ink: #6fd396;
   --bad: #ef5b4f;
@@ -114,7 +115,7 @@
   --k-output-bg: #15301a;
   --k-eval: #e8b85a;
   --k-eval-bg: #33260c;
-  --k-on-ink: #0c1524;
+  --k-on-ink: #111213;
   color-scheme: dark;
 }
 
@@ -301,7 +302,7 @@ main {
   position: absolute;
   inset-block: 0;
   left: 0;
-  background: var(--series-2);
+  background: var(--ink-3);
 }
 
 .bar.win {
@@ -454,7 +455,7 @@ td.fail {
 }
 
 .kp-cell.top {
-  fill: var(--series-2);
+  fill: var(--peak);
 }
 
 .kp-true {
