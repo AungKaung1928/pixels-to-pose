@@ -22,3 +22,5 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
+      - name: Load the built site in headless Chrome (docs/FEATURES.md)
+        run: node scripts/verify.mjs
