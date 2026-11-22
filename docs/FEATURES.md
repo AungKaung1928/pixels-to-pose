@@ -17,6 +17,8 @@ when any item is broken. Screenshots land in `verify-out/` (not committed).
 | Max-pool is the NMS | `#/peaks` | title, SVG peak grid |
 | Same detector, real photos | `#/real` | title, a table or control |
 | Shrink the detector | `#/int8` | title, a table or control |
+| Bottom Back / Next | end of every chapter, and the arrow keys (not while a slider has focus) | links open the chapter before/after, the overview past either end; Next names the next chapter by number |
+| Phone contents row | ≤ 600 px: one sideways row, open chapter scrolled into view and underlined | covered by the 390 px width check |
 | English / Japanese | header buttons, browser language | every chapter title differs between `en` and `ja` |
 | Phone width | 390 px | no sideways page scroll on the overview or any chapter, either language |
 | No runtime errors | whole page | no console errors in either language |

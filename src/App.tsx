@@ -6,6 +6,7 @@ import { KeypointChapter } from './KeypointChapter'
 import { MapChapter } from './MapChapter'
 import { PeakChapter } from './PeakChapter'
 import { RealChapter } from './RealChapter'
+import { ChapterNav } from './components/ChapterNav'
 import { Overview } from './components/Overview'
 import { Pipeline } from './components/Pipeline'
 import { LangContext, initialLang, saveLang } from './i18n'
@@ -63,6 +64,10 @@ export default function App() {
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
+  // On a phone the contents list is one sideways row: keep the open chapter in view, also on first load.
+  useEffect(() => {
+    document.querySelector('.toc [aria-current="page"]')?.scrollIntoView({ block: 'nearest', inline: 'center' })
+  }, [open])
   const Open = open ? CHAPTERS[open] : null
   const [lang, setLang] = useState<Lang>(initialLang)
   const t = T[lang]
@@ -102,6 +107,7 @@ export default function App() {
               <div className="chapter" id={open}>
                 <Open />
               </div>
+              <ChapterNav open={open} labels={t.toc} />
             </>
           ) : (
             <Overview title={t.contents} labels={t.toc} />

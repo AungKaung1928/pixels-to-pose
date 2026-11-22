@@ -179,6 +179,12 @@ try {
     if (!en.dom.includes(`id="pipe-back" class="pipe-btn" href="#/${around[0]}"`)) bad.push(`Back does not open #/${around[0]}`)
     if (!en.dom.includes(`id="pipe-next" class="pipe-btn" href="#/${around[1]}"`)) bad.push(`Next does not open #/${around[1]}`)
     if (!/id="pipe-play"/.test(en.dom)) bad.push('no Play button')
+    // Bottom Back/Next: the chapter before/after by number, the overview past either end.
+    const prev = CHAPTERS[i - 1]?.id
+    const next = CHAPTERS[i + 1]?.id
+    if (!en.dom.includes(`id="ch-back" href="#/${prev ?? ''}"`)) bad.push(`bottom Back does not open #/${prev ?? ''}`)
+    if (!en.dom.includes(`id="ch-next" href="#/${next ?? ''}"`)) bad.push(`bottom Next does not open #/${next ?? ''}`)
+    if (next && !new RegExp(`id="ch-next"[^>]*>.*?class="ch-nav-name">${i + 2} `, 's').test(en.dom)) bad.push('bottom Next does not name the next chapter')
     titles.push(h1Of(e))
     report(hash, bad)
     for (const lang of ['en', 'ja']) report(`${hash} at 390 px (${lang})`, phone(hash, lang))

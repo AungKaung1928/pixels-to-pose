@@ -7,3 +7,9 @@ export function parseRoute(hash: string): ChapterId | null {
   const id = hash.match(/^#\/([a-z0-9]+)$/)?.[1]
   return CHAPTER_IDS.find((c) => c === id) ?? null
 }
+
+// Previous / next chapter, or the overview past either end.
+export function neighbours(open: ChapterId): [ChapterId | null, ChapterId | null] {
+  const i = CHAPTER_IDS.indexOf(open)
+  return [CHAPTER_IDS[i - 1] ?? null, CHAPTER_IDS[i + 1] ?? null]
+}
