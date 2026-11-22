@@ -19,7 +19,7 @@ export function Steps({ texts, i, setI }: { texts: readonly string[]; i: number;
         </span>{' '}
         {texts[i]}
       </p>
-      <button id="step-next" type="button" aria-label={t.next} disabled={i === texts.length - 1} onClick={() => setI(i + 1)}>
+      <button id="step-next" type="button" aria-label={t.next} disabled={i === texts.length - 1} onClick={() => setI(i)}>
         →
       </button>
     </div>
