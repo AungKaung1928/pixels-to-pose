@@ -75,3 +75,15 @@ describe('vermilion is reserved for the peak', () => {
     expect(users).toEqual(['.kp-cell.top'])
   })
 })
+
+// Every animated selector is switched off again inside a prefers-reduced-motion block.
+describe('reduced motion', () => {
+  it('each animation has a reduced-motion override', () => {
+    const reduced = [...css.matchAll(/@media \(prefers-reduced-motion: reduce\) \{([\s\S]*?)\n\}/g)].map((m) => m[1]).join('\n')
+    const animated = [...css.matchAll(/([^{}]+)\{[^}]*\banimation:(?!\s*none)[^;]+;/g)].map((m) => m[1].trim())
+    expect(animated.length).toBeGreaterThan(0)
+    for (const sel of animated) {
+      expect(reduced, sel).toMatch(new RegExp(`${sel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\{[^}]*animation:\\s*none`))
+    }
+  })
+})
