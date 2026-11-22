@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { argmax, blob, softArgmax, softmax } from './lib/softargmax'
-import { HEADS } from './content/keypoints'
+import { HEADS, KP_DEFAULT } from './content/keypoints'
 import { useLang } from './i18n'
 
-const N = 16
+const N = KP_DEFAULT.cells
 const W = 640
 const H = 160
 const M = { l: 8, r: 8, t: 10, b: 24 }
@@ -56,8 +56,8 @@ const T = {
 export function KeypointChapter() {
   const lang = useLang()
   const t = T[lang]
-  const [x0, setX0] = useState(7.4)
-  const [beta, setBeta] = useState(5)
+  const [x0, setX0] = useState(KP_DEFAULT.x0)
+  const [beta, setBeta] = useState(KP_DEFAULT.beta)
   const f = blob(N, x0)
   const w = softmax(f, beta)
   const a = argmax(f)

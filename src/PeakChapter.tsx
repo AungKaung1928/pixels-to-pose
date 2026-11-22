@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { heatmap, peaks } from './lib/maxpool'
-import { DECODE_MS } from './content/peaks'
+import { DECODE_MS, PEAK_GRID } from './content/peaks'
 import { useLang } from './i18n'
 
-const N = 12 // cells shown (the real heatmap is 48 x 48, stride 4 on a 192 px image)
-const SIGMA = 1 // cells, illustration
-const THR = 0.3 // score threshold, illustration
+const { n: N, sigma: SIGMA, thr: THR } = PEAK_GRID
 const C = 24 // svg px per cell
 
 const T = {
@@ -47,7 +45,7 @@ const T = {
 
 export function PeakChapter() {
   const t = T[useLang()]
-  const [s, setS] = useState(0.6)
+  const [s, setS] = useState(PEAK_GRID.sep)
   const a: [number, number] = [4, 6]
   const b: [number, number] = [4 + s, 6]
   const h = heatmap(N, [a, b], SIGMA)

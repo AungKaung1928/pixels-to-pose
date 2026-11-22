@@ -2,11 +2,10 @@ import { useState } from 'react'
 import { averagedFloor, metresPerPixel, silhouettePixels } from './lib/camera'
 import { Marks } from './components/Marks'
 import { Steps } from './components/Steps'
-import { DEFAULT } from './content/camera'
+import { DEFAULT, RESOLUTIONS } from './content/camera'
 import { useLang } from './i18n'
 
 const CUBE = 0.06 // m, cube side in the mujoco-cube-pose-cnn scene
-const RESOLUTIONS = [64, 128, 192, 256]
 const RESULTS = [
   { id: 'calibrated', mm: 1.91 },
   { id: 'cnn', mm: 0.59 },
