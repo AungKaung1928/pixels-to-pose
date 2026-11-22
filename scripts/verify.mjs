@@ -63,14 +63,8 @@ function load(path, { lang = 'en', shot } = {}) {
   return { dom: r.stdout ?? '', consoleErrors }
 }
 
-// The markup of one chapter: from its anchor to the next chapter's anchor.
-function chapterHtml(dom, i) {
-  const start = dom.indexOf(`id="${CHAPTERS[i].id}"`)
-  if (start < 0) return null
-  const next = CHAPTERS[i + 1] ? dom.indexOf(`id="${CHAPTERS[i + 1].id}"`, start) : -1
-  return dom.slice(start, next < 0 ? undefined : next)
-}
-
+// The markup of the open chapter: inside <main>.
+const mainOf = (dom) => dom.match(/<main>([\s\S]*)<\/main>/)?.[1] ?? ''
 const h1Of = (html) => html.match(/<h1[^>]*>([^<]+)<\/h1>/)?.[1]?.trim() ?? ''
 
 async function startServer() {
@@ -94,12 +88,12 @@ async function startServer() {
 mkdirSync(OUT, { recursive: true })
 
 // Phone width: headless Chrome cannot open a 390 px window on every platform, so a same-origin page holds the
-// site in a 390 px frame and prints the page's scroll width next to the frame's width, naming the element that
+// site (at the frame page's own hash) in a 390 px frame and prints the page's scroll width next to the frame's width, naming the element that
 // sticks out furthest on overflow.
 const FRAME = join(ROOT, 'dist', '_frame.html')
 writeFileSync(
   FRAME,
-  `<!doctype html><body style="margin:0"><iframe id="f" src="/" style="width:390px;height:844px;border:0"></iframe><script>
+  `<!doctype html><body style="margin:0"><iframe id="f" style="width:390px;height:844px;border:0"></iframe><script>
 const f = document.getElementById('f')
 f.onload = () => setTimeout(() => {
   const w = f.contentWindow
@@ -118,6 +112,7 @@ f.onload = () => setTimeout(() => {
     }
   document.body.append('PHONE ' + d.scrollWidth + ' ' + d.clientWidth + ' ' + who + ' ')
 }, 1000)
+f.src = '/' + location.hash
 </script>`,
 )
 const server = await startServer()
@@ -129,36 +124,50 @@ const report = (name, bad) => {
   console.log(`${bad.length ? 'FAIL' : 'ok  '} ${name}${bad.length ? '\n     ' + bad.join('\n     ') : ''}`)
 }
 
+const phone = (hash, lang) => {
+  const p = load('_frame.html' + hash, { lang, shot: lang === 'en' ? `${hash.slice(2) || 'overview'}-phone.png` : undefined })
+  const m = p.dom.match(/PHONE (\d+) (\d+) ([^ ]*)/)
+  if (!m) return ['390 px frame not measured']
+  return Number(m[1]) > Number(m[2]) ? [`page is ${m[1]} px wide in a ${m[2]} px frame (sticks out furthest: ${m[3]})`] : []
+}
+// Contents list: one link per chapter, in order.
+const contents = (dom) => {
+  const links = [...dom.matchAll(/<a href="#\/([\w-]+)"/g)].map((m) => m[1])
+  return links.join() === CHAPTERS.map((c) => c.id).join() ? [] : [`contents links ${links.join()}`]
+}
+
 try {
-  const en = load('', { shot: 'page.png' })
-  const ja = load('', { lang: 'ja' })
-  for (const [lang, page] of [['en', en], ['ja', ja]]) {
-    report(`page loads (${lang})`, page.consoleErrors.map((e) => `console: ${e.slice(-160)}`))
-    // Every contents link points at a chapter that exists.
-    const links = [...page.dom.matchAll(/<a href="#([\w-]+)">/g)].map((m) => m[1])
-    const bad = CHAPTERS.filter((c) => !links.includes(c.id)).map((c) => `no contents link to #${c.id}`)
-    for (const id of links) if (!page.dom.includes(`id="${id}"`)) bad.push(`contents link #${id} has no target`)
-    report(`contents (${lang})`, bad)
-  }
-  CHAPTERS.forEach((ch, i) => {
-    const e = chapterHtml(en.dom, i)
-    const j = chapterHtml(ja.dom, i)
-    const bad = []
-    if (e === null) bad.push(`no element id="${ch.id}"`)
-    else {
-      if (!h1Of(e)) bad.push('no chapter title (h1)')
-      if (ch.svg && !/<svg/.test(e)) bad.push('no svg figure drawn')
-      if (!/<(table|svg|input)/.test(e)) bad.push('no table, figure or control')
-      if (j !== null && h1Of(j) === h1Of(e)) bad.push(`title not translated in ja: "${h1Of(e)}"`)
-    }
-    report(`#${ch.id}`, bad)
-  })
+  // Overview: the empty hash, "#/" and an unknown chapter all land on it.
   for (const lang of ['en', 'ja']) {
-    const p = load('_frame.html', { lang, shot: lang === 'en' ? 'page-phone.png' : undefined })
-    const m = p.dom.match(/PHONE (\d+) (\d+) ([^ ]*)/)
-    const bad = !m ? ['390 px frame not measured'] : Number(m[1]) > Number(m[2]) ? [`page is ${m[1]} px wide in a ${m[2]} px frame (sticks out furthest: ${m[3]})`] : []
-    report(`no sideways scroll at 390 px (${lang})`, bad)
+    for (const hash of ['', '#/', '#/nope']) {
+      const p = load(hash, { lang, shot: lang === 'en' && !hash ? 'overview.png' : undefined })
+      const bad = [...p.consoleErrors.map((e) => `console: ${e.slice(-160)}`), ...contents(p.dom)]
+      if (!/id="overview"/.test(p.dom)) bad.push('overview not shown')
+      if (/class="chapter"/.test(p.dom)) bad.push('a chapter is open on the overview')
+      report(`overview at "${hash}" (${lang})`, bad)
+    }
+    report(`overview at 390 px (${lang})`, phone('', lang))
   }
+  const titles = []
+  for (const ch of CHAPTERS) {
+    const hash = `#/${ch.id}`
+    const en = load(hash, { shot: `${ch.id}.png` })
+    const ja = load(hash, { lang: 'ja' })
+    const e = mainOf(en.dom)
+    const bad = [...en.consoleErrors, ...ja.consoleErrors].map((x) => `console: ${x.slice(-160)}`)
+    bad.push(...contents(en.dom))
+    if (!e.includes(`class="chapter" id="${ch.id}"`)) bad.push(`chapter ${ch.id} is not the one open`)
+    if (!new RegExp(`href="${hash}" aria-current="page"`).test(en.dom)) bad.push('contents does not mark this chapter')
+    if (!h1Of(e)) bad.push('no chapter title (h1)')
+    if (ch.svg && !/<svg/.test(e)) bad.push('no svg figure drawn')
+    if (!/<(table|svg|input)/.test(e)) bad.push('no table, figure or control')
+    if (h1Of(mainOf(ja.dom)) === h1Of(e)) bad.push(`title not translated in ja: "${h1Of(e)}"`)
+    titles.push(h1Of(e))
+    report(hash, bad)
+    for (const lang of ['en', 'ja']) report(`${hash} at 390 px (${lang})`, phone(hash, lang))
+  }
+  // Each route opens its own chapter: a route wired to another chapter's component repeats that title.
+  report('every chapter route shows its own title', new Set(titles).size === CHAPTERS.length ? [] : [`titles: ${titles.join(' | ')}`])
 } finally {
   server.kill()
   rmSync(FRAME, { force: true })
