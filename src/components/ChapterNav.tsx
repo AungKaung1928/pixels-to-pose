@@ -19,7 +19,7 @@ function useArrowKeys(open: ChapterId) {
       const el = e.target as HTMLElement
       if (el.closest('input, select, textarea, [contenteditable="true"]')) return
       if (e.key === 'ArrowLeft') window.location.hash = hrefOf(prev)
-      else if (e.key === 'ArrowRight') window.location.hash = hrefOf(next)
+      else if (e.key === 'ArrowUp') window.location.hash = hrefOf(next)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
