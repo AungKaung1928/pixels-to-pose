@@ -264,11 +264,58 @@ main {
 }
 
 .panel {
+  --crop: 10px;
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding-block-start: 24px;
-  border-top: 1px solid var(--hairline);
+  padding: 32px 24px 24px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+
+/* Each panel is a print on the light table: crop marks just outside its four corners. */
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--crop) - 1px);
+  pointer-events: none;
+  --m: var(--hairline-strong);
+  background:
+    linear-gradient(var(--m), var(--m)) 0 var(--crop) / var(--crop) 1px,
+    linear-gradient(var(--m), var(--m)) var(--crop) 0 / 1px var(--crop),
+    linear-gradient(var(--m), var(--m)) 100% var(--crop) / var(--crop) 1px,
+    linear-gradient(var(--m), var(--m)) calc(100% - var(--crop)) 0 / 1px var(--crop),
+    linear-gradient(var(--m), var(--m)) 0 calc(100% - var(--crop)) / var(--crop) 1px,
+    linear-gradient(var(--m), var(--m)) var(--crop) 100% / 1px var(--crop),
+    linear-gradient(var(--m), var(--m)) 100% calc(100% - var(--crop)) / var(--crop) 1px,
+    linear-gradient(var(--m), var(--m)) calc(100% - var(--crop)) 100% / 1px var(--crop);
+  background-repeat: no-repeat;
+}
+
+/* Pixel ruler along the top edge: a tick every 8 px, a long tick every 64 px. */
+.panel::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 8px;
+  pointer-events: none;
+  border-bottom: 1px solid var(--hairline);
+  background:
+    repeating-linear-gradient(90deg, var(--ink-3) 0 1px, transparent 1px 64px) 0 0 / 100% 8px,
+    repeating-linear-gradient(90deg, var(--hairline-strong) 0 1px, transparent 1px 8px) 0 100% / 100% 4px;
+  background-repeat: no-repeat;
+}
+
+.panel > p {
+  max-width: 68ch;
+}
+
+@media (max-width: 600px) {
+  .panel {
+    --crop: 8px;
+    padding: 28px 16px 16px;
+  }
 }
 
 .bars {
