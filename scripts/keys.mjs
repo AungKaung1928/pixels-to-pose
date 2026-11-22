@@ -163,12 +163,12 @@ try {
   const enTitle = await js(`document.querySelector('h1').textContent`)
   await js(`document.getElementById('lang-ja').click()`)
   await sleep(150)
-  const after = await js(`[document.documentElement.lang, document.querySelector('h1').textContent !== ${JSON.stringify(enTitle)}].join(' ')`)
+  const switched = await js(`[document.documentElement.lang, document.querySelector('h1').textContent !== ${JSON.stringify(enTitle)}].join(' ')`)
   await open('#/map')
   const kept = await js(`[document.documentElement.lang, document.getElementById('lang-ja').getAttribute('aria-pressed')].join(' ')`)
   await js(`document.getElementById('lang-en').click()`)
   report('EN/JA toggle switches title and lang, and survives a reload', [
-    ...(after === 'ja true' ? [] : [`after click: ${after}, expected ja true`]),
+    ...(switched === 'ja true' ? [] : [`after click: ${switched}, expected ja true`]),
     ...(kept === 'ja true' ? [] : [`after reload: ${kept}, expected ja true`]),
   ])
 } finally {
