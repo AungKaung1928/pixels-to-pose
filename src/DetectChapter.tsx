@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { cheapest, methods } from './content/detect'
 import type { Stat } from './content/detect'
+import { Steps } from './components/Steps'
 import { useLang } from './i18n'
 
 const T = {
@@ -20,6 +21,12 @@ const T = {
     no: 'no',
     note: 'The red-hue rule looks accurate on the images where it works (3.48 mm) but only finds the cube in 10.9 % of them: a wrong assumption fails silently. Half the CNN’s apparent lead over OpenCV was a calibration offset that one fitted number removes.',
     source: 'mujoco-cube-pose-cnn README, Results (hard regime, 2000 validation images, CPU)',
+    steps: [
+      'Set the position error your robot can accept.',
+      'The cheapest method that meets it, by time per image.',
+      'Every method on the same 2000 images: how often it finds the cube, its error, its time.',
+      'The caveat: a method can look accurate and still miss the cube.',
+    ],
   },
   ja: {
     eyebrow: '検出と姿勢推定',
@@ -37,6 +44,12 @@ const T = {
     no: '不合格',
     note: '赤色相のルールは、うまくいった画像では正確に見えます (3.48 mm) が、キューブを見つけられるのは 10.9 % の画像だけです。誤った仮定は気づかれずに失敗します。OpenCV に対する CNN の見かけの優位の半分は、フィットした数値 1 つで消えるキャリブレーションのずれでした。',
     source: 'mujoco-cube-pose-cnn README の結果 (hard 条件、検証画像 2000 枚、CPU)',
+    steps: [
+      'ロボットが許容できる位置誤差を設定します。',
+      '条件を満たす手法のうち、画像 1 枚の時間が最も短いもの。',
+      '同じ検証画像 2000 枚での各手法: キューブを見つける割合、誤差、時間。',
+      '注意点: 正確に見えてもキューブを見逃す手法があります。',
+    ],
   },
 }
 
@@ -46,6 +59,8 @@ export function DetectChapter() {
   const [tol, setTol] = useState(2)
   const [stat, setStat] = useState<Stat>('median')
   const best = cheapest(tol, stat)
+  const [step, setStep] = useState(0)
+  const lit = (i: number) => step === i || undefined
   return (
     <>
       <section className="intro chapter-break">
@@ -54,8 +69,9 @@ export function DetectChapter() {
         <p>{t.intro}</p>
       </section>
       <section className="panel" aria-label={t.title}>
+        <Steps texts={t.steps} i={step} setI={setStep} />
         <div className="controls">
-          <label htmlFor="det-tol">
+          <label htmlFor="det-tol" data-lit={lit(0)}>
             {t.tol} <b className="num">{tol.toFixed(2)} mm</b>
             <input id="det-tol" type="range" min={0.5} max={7} step={0.05} value={tol} onChange={(e) => setTol(Number(e.target.value))} />
           </label>
@@ -67,10 +83,10 @@ export function DetectChapter() {
             ))}
           </div>
         </div>
-        <p className="verdict">
+        <p className="verdict" data-lit={lit(1)}>
           {t.pick} <b>{best ? `${best.label[lang]}, ${best.ms.toFixed(2)} ms` : t.none}</b>
         </p>
-        <div className="table-scroll">
+        <div className="table-scroll" data-lit={lit(2)}>
           <table>
             <thead>
               <tr>
@@ -98,7 +114,9 @@ export function DetectChapter() {
             </tbody>
           </table>
         </div>
-        <p className="muted">{t.note}</p>
+        <p className="muted" data-lit={lit(3)}>
+          {t.note}
+        </p>
         <p className="muted">
           <a href="https://github.com/AungKaung1928/mujoco-cube-pose-cnn" lang="en">
             {t.source}

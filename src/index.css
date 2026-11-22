@@ -893,3 +893,43 @@ td.num {
 .ch-nav-name {
   font-weight: 600;
 }
+
+/* Step-through inside a panel: one row, Back / text / Next; the part for the open step gets a viewfinder outline. */
+.steps {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed var(--hairline-strong);
+}
+.steps button {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.steps button:disabled {
+  color: var(--ink-3);
+  cursor: default;
+  opacity: 0.6;
+}
+.steps-text {
+  flex: 1;
+  margin: 0;
+}
+.steps-count {
+  margin-right: 8px;
+  font: 600 var(--step--1) var(--font-mono);
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+[data-lit] {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 2px;
+}

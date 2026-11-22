@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { averagedFloor, metresPerPixel, silhouettePixels } from './lib/camera'
 import { Marks } from './components/Marks'
+import { Steps } from './components/Steps'
 import { DEFAULT } from './content/camera'
 import { useLang } from './i18n'
 
@@ -28,6 +29,12 @@ const T = {
       `Measured at the default setting: OpenCV with one calibrated scalar ${calib}, a 27k-parameter CNN ${cnn} median position error.`,
     belowPixel: 'Both are below one pixel.',
     reset: 'Back to the measured setting',
+    steps: [
+      'Distance and lens fix how much table one pixel covers.',
+      'The 6 cm cube covers many pixels at once.',
+      'Averaging over all of them divides the error by √(pixels covered).',
+      'Both measured methods land below one pixel.',
+    ],
     note: 'Floor = pixel size / √(pixels covered). It bounds quantisation only; lighting, blur and the method add their own error.',
     source: 'mujoco-cube-pose-cnn README (task definition and results) and scene.xml camera `top`',
   },
@@ -47,6 +54,12 @@ const T = {
       `既定の設定での計測値: キャリブレーションしたスカラー 1 つを加えた OpenCV で ${calib}、27k パラメータの CNN で ${cnn} (位置誤差の中央値)。`,
     belowPixel: 'どちらも 1 ピクセル未満です。',
     reset: '計測した設定に戻す',
+    steps: [
+      '距離とレンズで、1 ピクセルが覆うテーブルの長さが決まります。',
+      '6 cm のキューブは一度に多くのピクセルを覆います。',
+      'そのすべてで平均すると、誤差は √(覆うピクセル数) で割られます。',
+      '計測した 2 つの手法はどちらも 1 ピクセルより小さい誤差です。',
+    ],
     note: '下限 = ピクセルの大きさ / √(覆うピクセル数)。量子化だけの下限で、照明、ぼけ、手法そのものの誤差は別に加わります。',
     source: 'mujoco-cube-pose-cnn README (タスク定義と結果)、scene.xml のカメラ `top`',
   },
@@ -57,6 +70,8 @@ export function CameraChapter() {
   const [d, setD] = useState(DEFAULT.d)
   const [fov, setFov] = useState(DEFAULT.fov)
   const [res, setRes] = useState(DEFAULT.res)
+  const [step, setStep] = useState(0)
+  const lit = (i: number) => step === i || undefined
   const m = metresPerPixel(d, fov, res)
   const n = silhouettePixels(CUBE, m)
   const floor = averagedFloor(m, n)
@@ -70,6 +85,7 @@ export function CameraChapter() {
         <p>{t.intro}</p>
       </section>
       <section className="panel" aria-label={t.title}>
+        <Steps texts={t.steps} i={step} setI={setStep} />
         <div className="controls">
           <label htmlFor="cam-d">
             {t.dist} <b className="num">{d.toFixed(2)} m</b>
@@ -90,22 +106,22 @@ export function CameraChapter() {
           </div>
         </div>
         <dl className="readout">
-          <div>
+          <div data-lit={lit(0)}>
             <dt>{t.pixel}</dt>
             <dd className="num">{mm(m)}</dd>
           </div>
-          <div>
+          <div data-lit={lit(1)}>
             <dt>{t.count}</dt>
             <dd className="num">
               {Math.round(n)} {t.px}
             </dd>
           </div>
-          <div>
+          <div data-lit={lit(2)}>
             <dt>{t.floor}</dt>
             <dd className="num">{mm(floor)}</dd>
           </div>
         </dl>
-        <p>
+        <p data-lit={lit(3)}>
           {t.results(`${RESULTS[0].mm} mm`, `${RESULTS[1].mm} mm`)}{' '}
           {isDefault ? (
             t.belowPixel

@@ -1,6 +1,6 @@
 // Presses real keys in headless Chrome (DevTools protocol) and exits non-zero when keyboard use is broken:
-// arrow keys move between chapters, arrows inside a slider stay in the slider, and Play walks the
-// chapters. Needs Node 22+ (built-in WebSocket) and a Chrome whose debug port this
+// arrow keys move between chapters, arrows inside a slider stay in the slider, Play walks the
+// chapters and step buttons walk a chapter. Needs Node 22+ (built-in WebSocket) and a Chrome whose debug port this
 // process can reach (Linux CI). Run after `npm run build`.
 import { spawn } from 'node:child_process'
 import { mkdtempSync, rmSync } from 'node:fs'
@@ -126,6 +126,15 @@ try {
     ...(played === '#/int8 node-net' ? [] : [`after one beat: ${played}, expected #/int8 node-net`]),
     ...(stopped === '#/int8 false' ? [] : [`after two beats: ${stopped}, expected #/int8 false`]),
   ])
+
+  // Steps: Next three times on chapter 1 reaches step 4, lights the measured-results line, and disables Next.
+  await open('#/camera')
+  for (let k = 0; k < 3; k++) await js(`document.getElementById('step-next').click()`)
+  await sleep(150)
+  const stepped = await js(
+    `[document.querySelector('.steps-count').textContent, document.querySelectorAll('[data-lit]').length, document.querySelector('[data-lit]')?.textContent.includes('1.91 mm'), document.getElementById('step-next').disabled].join(' | ')`,
+  )
+  report('Steps: Next ×3 on #/camera → step 4 / 4, results line lit, Next disabled', stepped === 'Step 4 / 4 | 1 | true | true' ? [] : [`got ${stepped}`])
 } finally {
   chrome.kill()
   vite.kill()
