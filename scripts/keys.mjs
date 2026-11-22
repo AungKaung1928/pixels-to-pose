@@ -157,6 +157,20 @@ try {
     if (f.startsWith('NO')) hidden.push(f.slice(3))
   }
   report('every Tab stop on #/camera shows focus (20 stops)', hidden.length ? [`no visible focus: ${hidden.join(', ')}`] : [])
+
+  // Language toggle: clicking 日本語 switches the title and <html lang>, and the choice survives a reload.
+  await open('#/map')
+  const enTitle = await js(`document.querySelector('h1').textContent`)
+  await js(`document.getElementById('lang-ja').click()`)
+  await sleep(150)
+  const switched = await js(`[document.documentElement.lang, document.querySelector('h1').textContent !== ${JSON.stringify(enTitle)}].join(' ')`)
+  await open('#/map')
+  const kept = await js(`[document.documentElement.lang, document.getElementById('lang-ja').getAttribute('aria-pressed')].join(' ')`)
+  await js(`document.getElementById('lang-en').click()`)
+  report('EN/JA toggle switches title and lang, and survives a reload', [
+    ...(switched === 'ja true' ? [] : [`after click: ${switched}, expected ja true`]),
+    ...(kept === 'ja true' ? [] : [`after reload: ${kept}, expected ja true`]),
+  ])
 } finally {
   chrome.kill()
   vite.kill()
