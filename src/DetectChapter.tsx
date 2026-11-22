@@ -63,7 +63,7 @@ export function DetectChapter() {
   const lit = (i: number) => step === i || undefined
   return (
     <>
-      <section className="intro chapter-break">
+      <section className="intro">
         <p className="eyebrow">{t.eyebrow}</p>
         <h1>{t.title}</h1>
         <p>{t.intro}</p>

@@ -48,7 +48,7 @@ export function Int8Chapter() {
   const pct = (ms: number) => `${(ms / MAX_MS) * 100}%`
   return (
     <>
-    <section className="intro chapter-break">
+    <section className="intro">
       <p className="eyebrow">{t.eyebrow}</p>
       <h1>{t.title}</h1>
       <p>{t.intro}</p>
