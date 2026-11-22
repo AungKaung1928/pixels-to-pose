@@ -19,8 +19,9 @@
   --bad: #d4382c;
   --bad-ink: #b42318;
 
-  --font-display: 'Bahnschrift', 'DIN Alternate', 'Segoe UI Variable Display', 'Segoe UI', system-ui,
-    'Hiragino Sans', 'Yu Gothic UI', 'Noto Sans JP', sans-serif;
+  /* Headings set like a photo book: system serif (no web fonts), Mincho for Japanese. */
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, 'Hiragino Mincho ProN',
+    'Yu Mincho', 'Noto Serif JP', serif;
   --font-body: system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, 'Hiragino Sans', 'Yu Gothic UI',
     'Noto Sans JP', sans-serif;
   --font-mono: ui-monospace, 'Cascadia Mono', 'SF Mono', Menlo, Consolas, monospace;
