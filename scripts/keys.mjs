@@ -144,6 +144,19 @@ try {
     `[document.querySelector('.steps-count').textContent, document.querySelectorAll('[data-lit]').length, document.querySelector('[data-lit]')?.textContent.includes('1.91 mm'), document.getElementById('step-next').disabled].join(' | ')`,
   )
   report('Steps: Next ×3 on #/camera → step 4 / 4, results line lit, Next disabled', stepped === 'Step 4 / 4 | 1 | true | true' ? [] : [`got ${stepped}`])
+
+  // Every Tab stop on a chapter page shows focus: a CSS outline, or the stroke the pipeline nodes draw instead.
+  await open('#/camera')
+  const hidden = []
+  for (let k = 0; k < 20; k++) {
+    await press('Tab')
+    const f = await js(`(() => { const a = document.activeElement; if (!a || a === document.body) return 'body'
+      const node = a.closest('.pipe-node'); const s = getComputedStyle(a)
+      const ok = node ? getComputedStyle(node.querySelector('rect')).strokeWidth === '3px' : s.outlineStyle !== 'none' && parseFloat(s.outlineWidth) >= 2
+      return (ok ? 'ok ' : 'NO ') + (a.id || a.tagName) })()`)
+    if (f.startsWith('NO')) hidden.push(f.slice(3))
+  }
+  report('every Tab stop on #/camera shows focus (20 stops)', hidden.length ? [`no visible focus: ${hidden.join(', ')}`] : [])
 } finally {
   chrome.kill()
   vite.kill()
