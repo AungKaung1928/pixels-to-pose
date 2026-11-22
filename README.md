@@ -26,4 +26,13 @@ npm test        # unit tests: the numbers the text relies on
 npm run build   # type check + static build into dist/
 ```
 
+## Sources
+
+Every number in the app comes from one of these; each chapter links its own.
+
+- [mujoco-cube-pose-cnn](https://github.com/AungKaung1928/mujoco-cube-pose-cnn): camera setting, classical vs CNN errors, soft-argmax head.
+- [mujoco-clutter-detect](https://github.com/AungKaung1928/mujoco-clutter-detect): detector, mAP shifts, real-photo gap, INT8 and pruning times.
+- Levine et al. 2016, spatial softmax, [arXiv 1504.00702](https://arxiv.org/abs/1504.00702).
+- Zhou et al. 2019, CenterNet (objects as points), [arXiv 1904.07850](https://arxiv.org/abs/1904.07850).
+
 MIT licence.
