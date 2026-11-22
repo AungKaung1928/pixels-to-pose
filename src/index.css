@@ -1008,3 +1008,18 @@ td.num {
 :lang(ja) .chapter:not([data-touched]) .intro + .panel .controls > label:first-child::after {
   content: '\2190  ドラッグ  \2192' / '';
 }
+
+/* Wide screens: title left, intro right, so the chapter's figure starts inside the first screen. */
+@media (min-width: 1000px) {
+  .intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 48px;
+    align-items: end;
+    max-width: none;
+  }
+  .intro > p:last-child {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+}
