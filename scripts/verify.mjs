@@ -150,6 +150,7 @@ try {
         const card = p.dom.match(new RegExp(`id="card-${ch.id}" class="ov-card k-\\w+" href="#/${ch.id}">(.*?)</a>`, 's'))?.[1]
         if (!card) bad.push(`no card for ${ch.id}`)
         else if (!/class="ov-value num">[^<]*\d/.test(card)) bad.push(`card ${ch.id} has no number`)
+        if (card && !/<svg class="ov-thumb"[^>]*>.*?<rect class="on"/s.test(card)) bad.push(`card ${ch.id} has no thumbnail with a lit bar`)
       }
       report(`overview at "${hash}" (${lang})`, bad)
     }

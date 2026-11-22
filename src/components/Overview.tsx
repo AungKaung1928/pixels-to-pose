@@ -6,6 +6,7 @@ import { methods } from '../content/detect'
 import { rows, speedup } from '../content/int8'
 import { realGap } from '../content/real'
 import { useLang } from '../i18n'
+import { Thumb } from './Thumb'
 import { metresPerPixel } from '../lib/camera'
 import { measured } from '../lib/iou'
 import { CHAPTER_IDS } from '../lib/route'
@@ -65,6 +66,7 @@ export function Overview({ title, labels }: { title: string; labels: Record<Chap
         {CHAPTER_IDS.map((id, i) => (
           <li key={id}>
             <a id={`card-${id}`} className={`ov-card k-${NODES.find((nd) => nd.id === CHAPTER_NODE[id].node)!.kind}`} href={`#/${id}`}>
+              <Thumb id={id} />
               <span className="ov-index">{String(i + 1).padStart(2, '0')}</span>
               <span className="ov-title">{labels[id]}</span>
               <span className="ov-value num">{VALUE[id]}</span>

@@ -46,8 +46,8 @@ const T = {
 export function PeakChapter() {
   const t = T[useLang()]
   const [s, setS] = useState(PEAK_GRID.sep)
-  const a: [number, number] = [4, 6]
-  const b: [number, number] = [4 + s, 6]
+  const a = PEAK_GRID.first
+  const b: [number, number] = [a[0] + s, a[1]]
   const h = heatmap(N, [a, b], SIGMA)
   const kept = peaks(h, THR)
   const cross = ([cx, cy]: [number, number], k: string) => {
