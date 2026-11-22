@@ -81,6 +81,9 @@ export default function App() {
       <div className="page">
         <header className="top">
           <p className="brand">Pixels to Pose</p>
+          <span className="frame-count num" aria-hidden="true">
+            {open ? String(CHAPTER_IDS.indexOf(open) + 1).padStart(2, '0') : '--'} / {String(CHAPTER_IDS.length).padStart(2, '0')}
+          </span>
           <div className="lang" role="group" aria-label={t.lang}>
             {(['en', 'ja'] as const).map((l) => (
               <button key={l} id={`lang-${l}`} type="button" aria-pressed={lang === l} onClick={() => pick(l)}>

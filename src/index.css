@@ -48,6 +48,8 @@
   --k-eval-bg: #f8ebcf;
   --k-on-ink: #ffffff;
   --film: #1b1c1e;
+  --on-film: #ececed;
+  --on-film-2: #a3a7ad;
   color-scheme: light;
 }
 
@@ -84,6 +86,8 @@
     --k-eval-bg: #33260c;
     --k-on-ink: #111213;
     --film: #2c2e31;
+  --on-film: #ececed;
+  --on-film-2: #a3a7ad;
     color-scheme: dark;
   }
 }
@@ -120,6 +124,8 @@
   --k-eval-bg: #33260c;
   --k-on-ink: #111213;
   --film: #2c2e31;
+  --on-film: #ececed;
+  --on-film-2: #a3a7ad;
   color-scheme: dark;
 }
 
@@ -200,18 +206,60 @@ main {
   gap: 40px;
 }
 
+/* Header = the edge of a film strip: dark base, small sprocket holes, edge print (name + frame counter) in mono. */
 .top {
+  --holes: repeating-linear-gradient(90deg, transparent 0 8px, var(--bg) 8px 16px, transparent 16px 24px);
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 16px;
-  padding-block-end: 16px;
-  border-bottom: 1px solid var(--hairline);
+  padding: 20px 16px;
+  border-radius: 3px;
+  background:
+    var(--holes) 0 5px / 100% 6px no-repeat,
+    var(--holes) 0 calc(100% - 5px) / 100% 6px no-repeat,
+    var(--film);
+  color: var(--on-film);
 }
 
 .brand {
-  font-family: var(--font-display);
-  font-weight: 600;
+  margin: 0;
+  font: 600 var(--step--1) var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.frame-count {
+  margin-inline-end: auto;
+  font: var(--step--1) var(--font-mono);
+  color: var(--on-film-2);
+}
+
+@media (max-width: 600px) {
+  .top {
+    gap: 10px;
+    padding-inline: 12px;
+  }
+  .brand {
+    letter-spacing: 0.06em;
+  }
+}
+
+.brand,
+.frame-count,
+.top .lang button {
+  white-space: nowrap;
+}
+
+.top .lang button {
+  border-color: var(--on-film-2);
+  background: transparent;
+  color: var(--on-film);
+}
+
+.top .lang button[aria-pressed='true'] {
+  border-color: var(--on-film);
+  background: var(--on-film);
+  color: var(--film);
 }
 
 .lang,
@@ -652,7 +700,7 @@ td.fail {
 }
 
 .toc li::before {
-  content: counter(ch) ' ';
+  content: counter(ch, decimal-leading-zero) ' ';
   font-family: var(--font-mono);
   color: var(--ink-3);
 }
@@ -662,11 +710,13 @@ td.fail {
   text-decoration: none;
 }
 
+/* The open chapter is the exposed frame: inverted, like the lit node in the pipeline. */
 .toc a[aria-current='page'] {
-  color: var(--accent);
+  padding: 2px 6px;
+  border-radius: 2px;
+  background: var(--accent);
+  color: var(--on-accent);
   font-weight: 600;
-  text-decoration: underline 2px;
-  text-underline-offset: 6px;
 }
 
 .toc a:hover {

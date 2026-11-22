@@ -51,3 +51,14 @@ describe('text tokens meet AA on ground and frame in both themes', () => {
     })
   }
 })
+
+// Header and overview strip: edge print on the film base.
+describe('film edge print meets AA in both themes', () => {
+  for (const [theme, src] of Object.entries(THEMES)) {
+    for (const fg of ['on-film', 'on-film-2']) {
+      it(`${theme} ${fg} on film`, () => {
+        expect(contrast(token(src, fg), token(src, 'film'))).toBeGreaterThanOrEqual(4.5)
+      })
+    }
+  }
+})
