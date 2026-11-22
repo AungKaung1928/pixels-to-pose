@@ -47,6 +47,7 @@
   --k-eval: #865500;
   --k-eval-bg: #f8ebcf;
   --k-on-ink: #ffffff;
+  --film: #1b1c1e;
   color-scheme: light;
 }
 
@@ -82,6 +83,7 @@
     --k-eval: #e8b85a;
     --k-eval-bg: #33260c;
     --k-on-ink: #111213;
+    --film: #2c2e31;
     color-scheme: dark;
   }
 }
@@ -117,6 +119,7 @@
   --k-eval: #e8b85a;
   --k-eval-bg: #33260c;
   --k-on-ink: #111213;
+  --film: #2c2e31;
   color-scheme: dark;
 }
 
@@ -816,28 +819,34 @@ td.num {
 .overview > p {
   max-width: 62ch;
 }
+/* The overview is a strip of film: frames on a dark base, sprocket holes punched through to the table above and below. */
 .ov-grid {
+  --holes: repeating-linear-gradient(90deg, transparent 0 10px, var(--bg) 10px 22px, transparent 22px 34px);
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 12px;
+  gap: 10px;
   margin: 24px 0 0;
-  padding: 0;
+  padding: 30px 10px;
   list-style: none;
+  background:
+    var(--holes) 0 10px / 100% 10px no-repeat,
+    var(--holes) 0 calc(100% - 10px) / 100% 10px no-repeat,
+    var(--film);
+  border-radius: 3px;
 }
 .ov-card {
   display: grid;
   gap: 4px;
   height: 100%;
   padding: 16px;
-  border: 1px solid var(--hairline);
   border-top: 4px solid var(--k);
-  border-radius: var(--radius);
   background: var(--surface);
   color: var(--ink);
   text-decoration: none;
 }
 .ov-card:hover {
-  border-color: var(--k);
+  outline: 2px solid var(--k);
+  outline-offset: -2px;
 }
 .ov-index {
   color: var(--ink-3);

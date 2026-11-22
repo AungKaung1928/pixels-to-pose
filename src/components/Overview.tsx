@@ -65,7 +65,7 @@ export function Overview({ title, labels }: { title: string; labels: Record<Chap
         {CHAPTER_IDS.map((id, i) => (
           <li key={id}>
             <a id={`card-${id}`} className={`ov-card k-${NODES.find((nd) => nd.id === CHAPTER_NODE[id].node)!.kind}`} href={`#/${id}`}>
-              <span className="ov-index">{i + 1}</span>
+              <span className="ov-index">{String(i + 1).padStart(2, '0')}</span>
               <span className="ov-title">{labels[id]}</span>
               <span className="ov-value num">{VALUE[id]}</span>
               <span className="ov-note">{t.note[id]}</span>
