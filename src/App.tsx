@@ -112,7 +112,7 @@ export default function App() {
           {open && Open ? (
             <>
               <Pipeline open={open} title={t.toc[open]} />
-              <div className="chapter" id={open} data-touched={touched === open || undefined} onInput={() => setTouched(open)}>
+              <div className="chapter" id={open} data-touched={touched === open || undefined}>
                 <Open />
               </div>
               <ChapterNav open={open} labels={t.toc} />
