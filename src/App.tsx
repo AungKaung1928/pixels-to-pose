@@ -71,10 +71,13 @@ export default function App() {
   const Open = open ? CHAPTERS[open] : null
   const [lang, setLang] = useState<Lang>(initialLang)
   const t = T[lang]
+  // Also on first load: a Japanese browser opens in Japanese, so <html lang> must follow before any click.
+  useEffect(() => {
+    document.documentElement.lang = lang
+  }, [lang])
   const pick = (l: Lang) => {
     setLang(l)
     saveLang(l)
-    document.documentElement.lang = l
   }
   return (
     <LangContext.Provider value={lang}>

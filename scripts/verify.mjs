@@ -174,6 +174,7 @@ try {
     const lits = (e.match(/data-lit="true"/g) ?? []).length
     if (ch.steps && !new RegExp(`class="steps-count">Step 1 / ${ch.steps}<`).test(e)) bad.push(`no "Step 1 / ${ch.steps}" counter`)
     if (lits !== (ch.steps ? 1 : 0)) bad.push(`${lits} parts lit, expected ${ch.steps ? 1 : 0}`)
+    if (!/<html lang="ja"/.test(ja.dom)) bad.push('Japanese page does not set <html lang="ja">')
     if (h1Of(mainOf(ja.dom)) === h1Of(e)) bad.push(`title not translated in ja: "${h1Of(e)}"`)
     // Pipeline diagram: exactly one node lit, the caption names this chapter, Back/Next open the chapters around it.
     const i = CHAPTERS.indexOf(ch)
