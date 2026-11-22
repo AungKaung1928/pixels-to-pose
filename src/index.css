@@ -865,6 +865,7 @@ td.num {
 /* Overview: one card per chapter, the measured number largest. */
 .overview > p {
   max-width: 62ch;
+  margin-top: 12px;
 }
 /* The overview is a strip of film: frames on a dark base, sprocket holes punched through to the table above and below. */
 .ov-grid {
