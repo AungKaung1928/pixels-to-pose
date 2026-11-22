@@ -185,6 +185,8 @@ try {
     const lits = (e.match(/data-lit="true"/g) ?? []).length
     if (ch.steps && !new RegExp(`class="steps-count">Step 1 / ${ch.steps}<`).test(e)) bad.push(`no "Step 1 / ${ch.steps}" counter`)
     if (lits !== (ch.steps ? 1 : 0)) bad.push(`${lits} parts lit, expected ${ch.steps ? 1 : 0}`)
+    // Every number cites its source: the chapter links at least one of the author's repos or a paper.
+    if (!/<a [^>]*href="https:\/\/(github\.com\/AungKaung1928\/|arxiv\.org\/)/.test(e)) bad.push('no source link (repo or arXiv)')
     const kana = mainOf(en.dom).replace(/<[^>]+>/g, ' ').match(/[\u3040-\u30ff\u4e00-\u9fff]+/g)
     if (kana) bad.push(`Japanese left on the English page: "${kana.slice(0, 3).join(' ')}"`)
     for (const line of englishLines(ja.dom)) bad.push(`English left on the Japanese page: "${line.slice(0, 80)}"`)
