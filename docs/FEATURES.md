@@ -23,4 +23,8 @@ when any item is broken. Screenshots land in `verify-out/` (not committed).
 | Phone width | 390 px | no sideways page scroll on the overview or any chapter, either language |
 | No runtime errors | whole page | no console errors in either language |
 
+`scripts/keys.mjs` (CI, Node 22+, Linux Chrome) presses real keys over the DevTools protocol: arrow keys between
+chapters, left from chapter 1 to the overview, arrows inside a slider stay in the chapter, Play advances one chapter
+and stops on the last.
+
 Chrome: `google-chrome` or `chromium` on PATH, the Windows Chrome under WSL, or `CHROME=/path/to/chrome`.
