@@ -79,7 +79,7 @@ export default function App() {
   }, [lang])
   const pick = (l: Lang) => {
     setLang(l)
-    saveLang(l)
+    saveLang(lang)
   }
   return (
     <LangContext.Provider value={lang}>
