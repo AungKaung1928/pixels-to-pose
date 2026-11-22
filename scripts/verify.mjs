@@ -10,12 +10,12 @@ const PORT = Number(process.env.VERIFY_PORT ?? 4181)
 const BASE = `http://localhost:${PORT}/`
 const OUT = join(ROOT, 'verify-out')
 
-// One row per chapter: its anchor id and whether it draws an SVG figure.
+// One row per chapter: its anchor id, whether it draws an SVG figure, and how many measured-value ticks its sliders carry.
 const CHAPTERS = [
-  { id: 'camera', svg: false },
+  { id: 'camera', svg: false, marks: 2 },
   { id: 'detect', svg: false },
   { id: 'keypoints', svg: true },
-  { id: 'map', svg: true },
+  { id: 'map', svg: true, marks: 5 },
   { id: 'peaks', svg: true },
   { id: 'real', svg: false },
   { id: 'int8', svg: false },
@@ -168,6 +168,8 @@ try {
     if (!h1Of(e)) bad.push('no chapter title (h1)')
     if (ch.svg && !/<svg/.test(e)) bad.push('no svg figure drawn')
     if (!/<(table|svg|input)/.test(e)) bad.push('no table, figure or control')
+    const marks = (e.match(/class="mark"/g) ?? []).length
+    if (marks !== (ch.marks ?? 0)) bad.push(`${marks} measured ticks on sliders, expected ${ch.marks ?? 0}`)
     if (h1Of(mainOf(ja.dom)) === h1Of(e)) bad.push(`title not translated in ja: "${h1Of(e)}"`)
     // Pipeline diagram: exactly one node lit, the caption names this chapter, Back/Next open the chapters around it.
     const i = CHAPTERS.indexOf(ch)

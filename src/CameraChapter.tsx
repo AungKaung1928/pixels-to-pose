@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { averagedFloor, metresPerPixel, silhouettePixels } from './lib/camera'
+import { Marks } from './components/Marks'
 import { DEFAULT } from './content/camera'
 import { useLang } from './i18n'
 
@@ -73,10 +74,12 @@ export function CameraChapter() {
           <label htmlFor="cam-d">
             {t.dist} <b className="num">{d.toFixed(2)} m</b>
             <input id="cam-d" type="range" min={0.2} max={1} step={0.01} value={d} onChange={(e) => setD(Number(e.target.value))} />
+            <Marks min={0.2} max={1} values={[DEFAULT.d]} />
           </label>
           <label htmlFor="cam-fov">
             {t.fov} <b className="num">{fov}°</b>
             <input id="cam-fov" type="range" min={20} max={90} step={1} value={fov} onChange={(e) => setFov(Number(e.target.value))} />
+            <Marks min={20} max={90} values={[DEFAULT.fov]} />
           </label>
           <div className="seg" role="group" aria-label={t.res}>
             {RESOLUTIONS.map((r) => (

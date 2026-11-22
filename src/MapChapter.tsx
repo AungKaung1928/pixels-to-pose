@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Marks } from './components/Marks'
 import { THRESHOLDS, iouShift, measured, passedThresholds } from './lib/iou'
 import { useLang } from './i18n'
 
@@ -58,6 +59,7 @@ export function MapChapter() {
           <label htmlFor="map-shift">
             {t.shift} <b className="num">{d} {t.px}</b>
             <input id="map-shift" type="range" min={0} max={14} step={1} value={d} onChange={(e) => setD(Number(e.target.value))} />
+            <Marks min={0} max={14} values={measured.map((r) => r.d)} />
           </label>
           <p className="verdict">
             {t.iou} <b className="num">{iou.toFixed(3)}</b>
