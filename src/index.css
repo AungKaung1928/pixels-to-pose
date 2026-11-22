@@ -13,7 +13,7 @@
   --on-accent: #ffffff;
   --series-1: #0f6b6b;
   --peak: #b93a0b;
-  --focus: #b93a0b;
+  --focus: #1b1c1e;
   --good: #1f9d55;
   --good-ink: #17703d;
   --bad: #d4382c;
@@ -68,7 +68,7 @@
     --on-accent: #111213;
     --series-1: #4fc1b8;
     --peak: #ff7a4a;
-    --focus: #ff7a4a;
+    --focus: #ececed;
     --good: #3fb871;
     --good-ink: #6fd396;
     --bad: #ef5b4f;
@@ -106,7 +106,7 @@
   --on-accent: #111213;
   --series-1: #4fc1b8;
   --peak: #ff7a4a;
-  --focus: #ff7a4a;
+  --focus: #ececed;
   --good: #3fb871;
   --good-ink: #6fd396;
   --bad: #ef5b4f;

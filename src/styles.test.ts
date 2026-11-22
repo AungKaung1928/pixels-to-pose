@@ -62,3 +62,16 @@ describe('film edge print meets AA in both themes', () => {
     }
   }
 })
+
+// Vermilion means "the winning cell" and nothing else: its hex is only the --peak token, used only by the argmax cell.
+describe('vermilion is reserved for the peak', () => {
+  for (const [theme, src] of Object.entries(THEMES)) {
+    it(`${theme}: the peak colour is defined once, as --peak`, () => {
+      expect(src.split(token(src, 'peak')).length - 1).toBe(1)
+    })
+  }
+  it('var(--peak) is used only by the argmax cell', () => {
+    const users = [...css.matchAll(/([^{}]+)\{[^}]*var\(--peak\)/g)].map((m) => m[1].trim())
+    expect(users).toEqual(['.kp-cell.top'])
+  })
+})
