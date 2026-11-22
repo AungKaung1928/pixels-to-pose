@@ -145,6 +145,12 @@ try {
       if (!/id="overview"/.test(p.dom)) bad.push('overview not shown')
       if (/class="chapter"/.test(p.dom)) bad.push('a chapter is open on the overview')
       if (/class="pipe"/.test(p.dom)) bad.push('pipeline diagram on the overview')
+      // One card per chapter, each linking to it and showing a number.
+      for (const ch of CHAPTERS) {
+        const card = p.dom.match(new RegExp(`id="card-${ch.id}" class="ov-card k-\\w+" href="#/${ch.id}">(.*?)</a>`, 's'))?.[1]
+        if (!card) bad.push(`no card for ${ch.id}`)
+        else if (!/class="ov-value num">[^<]*\d/.test(card)) bad.push(`card ${ch.id} has no number`)
+      }
       report(`overview at "${hash}" (${lang})`, bad)
     }
     report(`overview at 390 px (${lang})`, phone('', lang))

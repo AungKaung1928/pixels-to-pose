@@ -6,7 +6,7 @@ when any item is broken. Screenshots land in `verify-out/` (not committed).
 
 | Feature | Where | Checked by verify.sh |
 | --- | --- | --- |
-| Overview | `#/`, empty hash, unknown route | overview shown, no chapter open |
+| Overview | `#/`, empty hash, unknown route | overview shown, no chapter open, no diagram; one card per chapter linking to it, each with a number computed from that chapter's data |
 | Contents list opens each chapter | `nav` at the top, links `#/<chapter>` | 7 links in reading order on every page; the open chapter is marked `aria-current` |
 | Pipeline diagram on every chapter | top of `#/<chapter>`: Camera → Image → Detector → Heatmap → Peak pick → Coordinates → mAP, one hue per part type, legend once | exactly one node lit; caption names the chapter; Back/Next open the chapters before and after (wrapping); Play present; not on the overview |
 | One chapter per screen | `#/<chapter>` | that chapter alone in `main`; all 7 routes show 7 different titles |

@@ -699,3 +699,46 @@ td.num {
     animation: none;
   }
 }
+
+/* Overview: one card per chapter, the measured number largest. */
+.overview > p {
+  max-width: 62ch;
+}
+.ov-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ov-card {
+  display: grid;
+  gap: 4px;
+  height: 100%;
+  padding: 16px;
+  border: 1px solid var(--hairline);
+  border-top: 4px solid var(--k);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+}
+.ov-card:hover {
+  border-color: var(--k);
+}
+.ov-index {
+  color: var(--ink-3);
+  font: 600 var(--step--1) var(--font-mono);
+}
+.ov-title {
+  font: 600 var(--step-1) var(--font-display);
+}
+.ov-value {
+  color: var(--k);
+  font: 700 var(--step-2) var(--font-mono);
+}
+.ov-note {
+  color: var(--ink-2);
+  font-size: var(--step--1);
+}

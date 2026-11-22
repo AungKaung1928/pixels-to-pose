@@ -6,6 +6,7 @@ import { KeypointChapter } from './KeypointChapter'
 import { MapChapter } from './MapChapter'
 import { PeakChapter } from './PeakChapter'
 import { RealChapter } from './RealChapter'
+import { Overview } from './components/Overview'
 import { Pipeline } from './components/Pipeline'
 import { LangContext, initialLang, saveLang } from './i18n'
 import type { Lang } from './i18n'
@@ -103,9 +104,7 @@ export default function App() {
               </div>
             </>
           ) : (
-            <section className="intro" id="overview">
-              <h1>{t.contents}</h1>
-            </section>
+            <Overview title={t.contents} labels={t.toc} />
           )}
         </main>
       </div>
