@@ -9,7 +9,7 @@ Status: five chapters built, **How big is one pixel?** (pinhole camera, pixel si
 
 ## Run locally
 
-Needs Node.js 20.19+ or 22.12+ and npm.
+Needs Node.js 22.12+ and npm (vitest 5 requires it; the build alone runs on 20.19+).
 
 ```bash
 git clone <this repo URL>
