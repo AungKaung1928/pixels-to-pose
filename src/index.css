@@ -31,6 +31,20 @@
   --step-3: 2.25rem;
   --radius: 6px;
 
+  /* Pipeline node kinds: one hue each (ink on its tint, on-ink on the hue). */
+  --k-optics: #0e6c86;
+  --k-optics-bg: #d8eef4;
+  --k-pixels: #4a5568;
+  --k-pixels-bg: #e6e9ee;
+  --k-learned: #6a3db5;
+  --k-learned-bg: #ece3fb;
+  --k-decode: #b23317;
+  --k-decode-bg: #fde3dc;
+  --k-output: #2c7327;
+  --k-output-bg: #dcf1d9;
+  --k-eval: #865500;
+  --k-eval-bg: #f8ebcf;
+  --k-on-ink: #ffffff;
   color-scheme: light;
 }
 
@@ -53,6 +67,19 @@
     --good-ink: #6fd396;
     --bad: #ef5b4f;
     --bad-ink: #ff8a80;
+    --k-optics: #5cc8e4;
+    --k-optics-bg: #0f2c36;
+    --k-pixels: #a9b4c6;
+    --k-pixels-bg: #1f2633;
+    --k-learned: #b99cff;
+    --k-learned-bg: #261a42;
+    --k-decode: #ff8a6b;
+    --k-decode-bg: #3d1a12;
+    --k-output: #86d47c;
+    --k-output-bg: #15301a;
+    --k-eval: #e8b85a;
+    --k-eval-bg: #33260c;
+    --k-on-ink: #0c1524;
     color-scheme: dark;
   }
 }
@@ -75,6 +102,19 @@
   --good-ink: #6fd396;
   --bad: #ef5b4f;
   --bad-ink: #ff8a80;
+  --k-optics: #5cc8e4;
+  --k-optics-bg: #0f2c36;
+  --k-pixels: #a9b4c6;
+  --k-pixels-bg: #1f2633;
+  --k-learned: #b99cff;
+  --k-learned-bg: #261a42;
+  --k-decode: #ff8a6b;
+  --k-decode-bg: #3d1a12;
+  --k-output: #86d47c;
+  --k-output-bg: #15301a;
+  --k-eval: #e8b85a;
+  --k-eval-bg: #33260c;
+  --k-on-ink: #0c1524;
   color-scheme: dark;
 }
 
@@ -544,4 +584,118 @@ td.num {
 .peak-centre {
   stroke: var(--ink);
   stroke-width: 2;
+}
+
+/* Pipeline diagram: the same strip of nodes on every chapter, the open chapter's node filled. */
+.pipe {
+  margin: 0 0 32px;
+  padding: 16px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.pipe-scroll {
+  overflow-x: auto;
+}
+.pipe svg {
+  display: block;
+  max-width: none;
+}
+.pipe-edge {
+  stroke: var(--hairline-strong);
+  stroke-width: 2;
+}
+.pipe-edge.into {
+  stroke: var(--ink-2);
+  stroke-dasharray: 6 4;
+  animation: pipe-flow 0.9s linear infinite;
+}
+@keyframes pipe-flow {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+.pipe-node rect {
+  fill: var(--k-bg);
+  stroke: var(--k);
+  stroke-width: 1.5;
+}
+.pipe-node text {
+  fill: var(--k);
+  font: 600 13px var(--font-body);
+}
+.pipe-node.on rect {
+  fill: var(--k);
+}
+.pipe-node.on text {
+  fill: var(--k-on-ink);
+}
+.pipe-node:focus-visible {
+  outline: none;
+}
+.pipe-node:focus-visible rect {
+  stroke: var(--focus);
+  stroke-width: 3;
+}
+.k-optics { --k: var(--k-optics); --k-bg: var(--k-optics-bg); }
+.k-pixels { --k: var(--k-pixels); --k-bg: var(--k-pixels-bg); }
+.k-learned { --k: var(--k-learned); --k-bg: var(--k-learned-bg); }
+.k-decode { --k: var(--k-decode); --k-bg: var(--k-decode-bg); }
+.k-output { --k: var(--k-output); --k-bg: var(--k-output-bg); }
+.k-eval { --k: var(--k-eval); --k-bg: var(--k-eval-bg); }
+.pipe-caption {
+  display: grid;
+  gap: 2px;
+  margin-top: 12px;
+}
+.pipe-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.pipe-btn {
+  min-width: 44px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.pipe-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+.pipe-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 0 0 0 auto;
+  padding: 0;
+  list-style: none;
+  font-size: var(--step--1);
+}
+.pipe-legend li {
+  color: var(--k);
+}
+.pipe-legend li::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-inline-end: 6px;
+  border-radius: 2px;
+  background: var(--k);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pipe-edge.into {
+    animation: none;
+  }
 }

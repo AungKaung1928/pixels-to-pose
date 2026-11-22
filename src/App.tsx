@@ -6,6 +6,7 @@ import { KeypointChapter } from './KeypointChapter'
 import { MapChapter } from './MapChapter'
 import { PeakChapter } from './PeakChapter'
 import { RealChapter } from './RealChapter'
+import { Pipeline } from './components/Pipeline'
 import { LangContext, initialLang, saveLang } from './i18n'
 import type { Lang } from './i18n'
 import { CHAPTER_IDS, parseRoute } from './lib/route'
@@ -95,9 +96,12 @@ export default function App() {
         </nav>
         <main>
           {open && Open ? (
-            <div className="chapter" id={open}>
-              <Open />
-            </div>
+            <>
+              <Pipeline open={open} title={t.toc[open]} />
+              <div className="chapter" id={open}>
+                <Open />
+              </div>
+            </>
           ) : (
             <section className="intro" id="overview">
               <h1>{t.contents}</h1>

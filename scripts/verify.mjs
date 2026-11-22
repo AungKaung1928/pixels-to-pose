@@ -144,6 +144,7 @@ try {
       const bad = [...p.consoleErrors.map((e) => `console: ${e.slice(-160)}`), ...contents(p.dom)]
       if (!/id="overview"/.test(p.dom)) bad.push('overview not shown')
       if (/class="chapter"/.test(p.dom)) bad.push('a chapter is open on the overview')
+      if (/class="pipe"/.test(p.dom)) bad.push('pipeline diagram on the overview')
       report(`overview at "${hash}" (${lang})`, bad)
     }
     report(`overview at 390 px (${lang})`, phone('', lang))
@@ -162,6 +163,16 @@ try {
     if (ch.svg && !/<svg/.test(e)) bad.push('no svg figure drawn')
     if (!/<(table|svg|input)/.test(e)) bad.push('no table, figure or control')
     if (h1Of(mainOf(ja.dom)) === h1Of(e)) bad.push(`title not translated in ja: "${h1Of(e)}"`)
+    // Pipeline diagram: exactly one node lit, the caption names this chapter, Back/Next open the chapters around it.
+    const i = CHAPTERS.indexOf(ch)
+    const lit = en.dom.match(/class="pipe-node k-\w+ on"[^>]*aria-current="step"/g) ?? []
+    if (lit.length !== 1) bad.push(`diagram lights ${lit.length} nodes, expected 1`)
+    const label = en.dom.match(new RegExp(`href="${hash}" aria-current="page">([^<]+)<`))?.[1]
+    if (!label || !en.dom.includes(`<strong>${label}</strong>`)) bad.push('diagram caption does not name this chapter')
+    const around = [CHAPTERS.at(i - 1).id, CHAPTERS[(i + 1) % CHAPTERS.length].id]
+    if (!en.dom.includes(`id="pipe-back" class="pipe-btn" href="#/${around[0]}"`)) bad.push(`Back does not open #/${around[0]}`)
+    if (!en.dom.includes(`id="pipe-next" class="pipe-btn" href="#/${around[1]}"`)) bad.push(`Next does not open #/${around[1]}`)
+    if (!/id="pipe-play"/.test(en.dom)) bad.push('no Play button')
     titles.push(h1Of(e))
     report(hash, bad)
     for (const lang of ['en', 'ja']) report(`${hash} at 390 px (${lang})`, phone(hash, lang))
