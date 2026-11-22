@@ -85,6 +85,8 @@ async function startServer() {
   throw new Error(`preview server did not start on port ${PORT} (run npm run build first; is the port taken?)`)
 }
 
+// Start empty: a screenshot left from an older run would sit next to fresh ones and look current.
+rmSync(OUT, { recursive: true, force: true })
 mkdirSync(OUT, { recursive: true })
 
 // Phone width: headless Chrome cannot open a 390 px window on every platform, so a same-origin page holds the
