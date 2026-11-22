@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { averagedFloor, metresPerPixel, silhouettePixels } from './lib/camera'
+import { DEFAULT } from './content/camera'
 import { useLang } from './i18n'
 
 const CUBE = 0.06 // m, cube side in the mujoco-cube-pose-cnn scene
@@ -49,8 +50,6 @@ const T = {
     source: 'mujoco-cube-pose-cnn README (タスク定義と結果)、scene.xml のカメラ `top`',
   },
 }
-
-const DEFAULT = { d: 0.42, fov: 45, res: 128 }
 
 export function CameraChapter() {
   const t = T[useLang()]

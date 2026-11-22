@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { heatmap, peaks } from './lib/maxpool'
+import { DECODE_MS } from './content/peaks'
 import { useLang } from './i18n'
 
 const N = 12 // cells shown (the real heatmap is 48 x 48, stride 4 on a 192 px image)
@@ -21,8 +22,8 @@ const T = {
     legend: 'Shade: score. Cross: true centre. Ring: a cell the max-pool keeps.',
     when: 'It fails when the centres are close enough that one bump outranks the cell under the other centre. With this blob width that happens below about 1.5 cells (exactly 1.0 is a tie, and ties keep both cells): two objects, one detection. The tie rule cuts the other way too: a centre exactly halfway between two cells (try 2.5) scores both equally, both are kept, and one object gives two detections.',
     real:
-      'mujoco-clutter-detect places objects at least 0.075 m apart; its README states that this keeps every centre in its own cell, so peak picking there is exact and the pipeline has no box-overlap suppression at all. Decoding (max-pool, top-k, gather) takes 0.18 ms.',
-    illus: 'Grid size, blob width and the 0.3 threshold here are an illustration; the 0.075 m spacing and 0.18 ms are from the repository.',
+      `mujoco-clutter-detect places objects at least 0.075 m apart; its README states that this keeps every centre in its own cell, so peak picking there is exact and the pipeline has no box-overlap suppression at all. Decoding (max-pool, top-k, gather) takes ${DECODE_MS} ms.`,
+    illus: `Grid size, blob width and the 0.3 threshold here are an illustration; the 0.075 m spacing and ${DECODE_MS} ms are from the repository.`,
     source: 'mujoco-clutter-detect README (detector design, latency); CenterNet, arXiv 1904.07850',
   },
   ja: {
@@ -38,8 +39,8 @@ const T = {
     legend: '濃さ: スコア。バツ印: 真の中心。輪: max-pool で残るセル。',
     when: '中心同士が近く、一方の山がもう一方の中心のセルの値を上回ると失敗します。この山の幅では約 1.5 セル未満で起こります (ちょうど 1.0 は同値で、同値のセルは両方残ります)。物体 2 個に検出 1 個です。同値の規則は逆にも働きます。中心がちょうど 2 つのセルの中間にあると (2.5 を試してください) 両方のスコアが等しくなり、両方残って、1 個の物体が 2 個の検出になります。',
     real:
-      'mujoco-clutter-detect では物体同士を 0.075 m 以上離して配置します。README によると、これで各中心が別のセルに入るため、ピーク抽出は厳密で、パイプラインにボックス重なりの抑制はまったくありません。デコード (max-pool、top-k、gather) は 0.18 ms です。',
-    illus: 'ここでのグリッドの大きさ、山の幅、しきい値 0.3 は説明用です。0.075 m の間隔と 0.18 ms はリポジトリの値です。',
+      `mujoco-clutter-detect では物体同士を 0.075 m 以上離して配置します。README によると、これで各中心が別のセルに入るため、ピーク抽出は厳密で、パイプラインにボックス重なりの抑制はまったくありません。デコード (max-pool、top-k、gather) は ${DECODE_MS} ms です。`,
+    illus: `ここでのグリッドの大きさ、山の幅、しきい値 0.3 は説明用です。0.075 m の間隔と ${DECODE_MS} ms はリポジトリの値です。`,
     source: 'mujoco-clutter-detect README (検出器の設計、レイテンシ)、CenterNet arXiv 1904.07850',
   },
 }

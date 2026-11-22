@@ -1,16 +1,12 @@
 import { useState } from 'react'
 import { argmax, blob, softArgmax, softmax } from './lib/softargmax'
+import { HEADS } from './content/keypoints'
 import { useLang } from './i18n'
 
 const N = 16
 const W = 640
 const H = 160
 const M = { l: 8, r: 8, t: 10, b: 24 }
-
-const HEADS = [
-  { id: 'flatten', params: '130k', median: 0.75, p95: 2.0, ms: 1.7 },
-  { id: 'softargmax', params: '27k', median: 0.59, p95: 1.32, ms: 0.65 },
-]
 
 const T = {
   en: {
