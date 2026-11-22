@@ -2,7 +2,7 @@
 
 An interactive walk through a robot perception pipeline in seven chapters, from camera pixels to a scored pose, where every number is measured (for example: a 27k-parameter soft-argmax head finds the cube to 0.59 mm median error). English and Japanese.
 
-<img src="docs/media/keypoints.png" width="720" alt="Chapter 3: the pipeline strip with the Coordinates stage lit, the chapter title, and a softmax bar chart with the strongest cell in vermilion">
+<img src="docs/media/demo.gif" width="720" alt="The overview film strip, then each of the seven chapters in turn, with its stage lit in the pipeline strip">
 
 ## Quick start
 
@@ -21,6 +21,7 @@ Checks, when changing the code:
 npm run lint
 npm test            # unit tests: the numbers the text relies on
 scripts/verify.sh   # builds, then loads every chapter in headless Chrome (EN, JA, 390 px)
+python3 scripts/make_demo.py   # rebuilds docs/media/demo.gif from those screenshots (Pillow)
 ```
 
 ## How it works
