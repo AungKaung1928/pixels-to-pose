@@ -1,13 +1,10 @@
 # Pixels to Pose
 
-An interactive walk through a robot perception pipeline, from camera pixels to object pose, with measured accuracy and latency at each stage. English and Japanese.
+An interactive walk through a robot perception pipeline in seven chapters, from camera pixels to a scored pose, where every number is measured (for example: a 27k-parameter soft-argmax head finds the cube to 0.59 mm median error). English and Japanese.
 
-Status: five chapters built, **How big is one pixel?** (pinhole camera, pixel size vs sub-pixel accuracy), **Classical or learned?** (pick the cheapest method that meets an accuracy target), **Ask for a coordinate, get a coordinate** (argmax vs spatial soft-argmax), **What mAP sees that AP50 does not** (IoU thresholds under a box shift) and **Shrink the detector** (fp32 vs INT8 static/dynamic vs channel pruning: mAP, one- and four-thread latency, size).
+<img src="docs/media/keypoints.png" width="720" alt="Chapter 3: the pipeline strip with the Coordinates stage lit, the chapter title, and a softmax bar chart with the strongest cell in vermilion">
 
-- Every number comes from a measured result in one of the author's repositories, cited on the page. Sources: [mujoco-cube-pose-cnn](https://github.com/AungKaung1928/mujoco-cube-pose-cnn) (camera and pose errors) and [mujoco-clutter-detect](https://github.com/AungKaung1928/mujoco-clutter-detect) results table (simulated cluttered table, 2000 validation images, model time on one idle x86 CPU, not a Jetson).
-- Content lives in `src/content/`; `src/content/*.test.ts` and `src/lib/*.test.ts` check the numbers the text relies on.
-
-## Run locally
+## Quick start
 
 Needs Node.js 22.12+ and npm (vitest 5 requires it; the build alone runs on 20.19+).
 
@@ -15,16 +12,22 @@ Needs Node.js 22.12+ and npm (vitest 5 requires it; the build alone runs on 20.1
 git clone <this repo URL>
 cd pixels-to-pose
 npm ci          # first time only
-npm run dev     # then open http://localhost:5173
+npm run dev     # open http://localhost:5173: the chapter overview, as a film strip
 ```
 
-Only when changing the code:
+Checks, when changing the code:
 
 ```bash
 npm run lint
-npm test        # unit tests: the numbers the text relies on
-npm run build   # type check + static build into dist/
+npm test            # unit tests: the numbers the text relies on
+scripts/verify.sh   # builds, then loads every chapter in headless Chrome (EN, JA, 390 px)
 ```
+
+## How it works
+
+- Chapters: pixel size, classical vs learned, argmax vs soft-argmax, mAP vs AP50, max-pool as NMS, renders vs real photos, INT8 and pruning. `docs/FEATURES.md` lists what each one must show.
+- Numbers live in `src/content/` and `src/lib/`, checked by vitest; overview cards, tables and readouts compute from them.
+- One pipeline diagram (`src/content/pipeline.ts`) opens every chapter with its stage lit.
 
 ## Sources
 
@@ -35,4 +38,6 @@ Every number in the app comes from one of these; each chapter links its own.
 - Levine et al. 2016, spatial softmax, [arXiv 1504.00702](https://arxiv.org/abs/1504.00702).
 - Zhou et al. 2019, CenterNet (objects as points), [arXiv 1904.07850](https://arxiv.org/abs/1904.07850).
 
-MIT licence.
+## License
+
+MIT, see LICENSE.
