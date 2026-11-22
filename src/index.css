@@ -31,6 +31,7 @@
   --step-1: 1.25rem;
   --step-2: 1.625rem;
   --step-3: 2.25rem;
+  --step-4: 3rem;
   --radius: 6px;
 
   /* Pipeline node kinds: one hue each (ink on its tint, on-ink on the hue). */
@@ -155,9 +156,9 @@ h3 {
 }
 
 h1 {
-  font-size: var(--step-3);
+  font-size: clamp(var(--step-3), 1.25rem + 2.2vw, var(--step-4));
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 h2 {
