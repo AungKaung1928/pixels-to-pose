@@ -133,6 +133,14 @@ const phone = (hash, lang) => {
   return Number(m[1]) > Number(m[2]) ? [`page is ${m[1]} px wide in a ${m[2]} px frame (sticks out furthest: ${m[3]})`] : []
 }
 // Contents list: one link per chapter, in order.
+// Japanese page: no English-only line of 4+ words in the page body (external source links excepted; they cite English titles).
+const englishLines = (dom) =>
+  mainOf(dom)
+    .replace(/<a [^>]*href="http[^>]*>[\s\S]*?<\/a>/g, '')
+    .split(/<[^>]+>/)
+    .map((x) => x.replace(/&[a-z]+;/g, ' ').trim())
+    .filter((x) => /[A-Za-z]+(?: [A-Za-z]+){3,}/.test(x) && !/[\u3040-\u30ff\u4e00-\u9fff]/.test(x))
+
 const contents = (dom) => {
   const links = [...dom.matchAll(/<a href="#\/([\w-]+)"/g)].map((m) => m[1])
   return links.join() === CHAPTERS.map((c) => c.id).join() ? [] : [`contents links ${links.join()}`]
@@ -177,6 +185,7 @@ try {
     const lits = (e.match(/data-lit="true"/g) ?? []).length
     if (ch.steps && !new RegExp(`class="steps-count">Step 1 / ${ch.steps}<`).test(e)) bad.push(`no "Step 1 / ${ch.steps}" counter`)
     if (lits !== (ch.steps ? 1 : 0)) bad.push(`${lits} parts lit, expected ${ch.steps ? 1 : 0}`)
+    for (const line of englishLines(ja.dom)) bad.push(`English left on the Japanese page: "${line.slice(0, 80)}"`)
     if (!/<html lang="ja"/.test(ja.dom)) bad.push('Japanese page does not set <html lang="ja">')
     if (h1Of(mainOf(ja.dom)) === h1Of(e)) bad.push(`title not translated in ja: "${h1Of(e)}"`)
     // Pipeline diagram: exactly one node lit, the caption names this chapter, Back/Next open the chapters around it.
